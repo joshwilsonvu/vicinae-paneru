@@ -101,6 +101,11 @@ export function buildArgv(command: PaneruCommand, number?: unknown): string[] {
 		: command.argv;
 }
 
+const CLOSE_OPTIONS = {
+	clearRootSearch: false,
+	popToRootType: PopToRootType.Default,
+};
+
 /**
  * Hides Vicinae (so focus returns to the window Paneru should act on), then
  * runs the command. Errors surface as a HUD since the launcher is closed.
@@ -109,19 +114,19 @@ export async function runCommand(
 	command: PaneruCommand,
 	number?: unknown,
 ): Promise<void> {
-	await closeMainWindow({
-		clearRootSearch: true,
-		popToRootType: PopToRootType.Immediate,
-	});
+	// Keep the search text and defer to the user's pop-to-root preference, so
+	// reopening Vicinae can land back on the same command for quick repeats.
+	// showHUD also closes the window, so it gets the same options.
+	await closeMainWindow(CLOSE_OPTIONS);
 	try {
 		const argv = buildArgv(command, number);
 		// Give macOS a moment to hand focus back to the previous app.
 		await new Promise((r) => setTimeout(r, 60));
 		await sendCommand(argv);
-		if (command.successHud) await showHUD(command.successHud);
+		if (command.successHud) await showHUD(command.successHud, CLOSE_OPTIONS);
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
-		await showHUD(`Paneru: ${message}`);
+		await showHUD(`Paneru: ${message}`, CLOSE_OPTIONS);
 	}
 }
 

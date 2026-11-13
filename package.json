@@ -2,16 +2,27 @@
 	"$schema": "https://raw.githubusercontent.com/vicinaehq/vicinae/refs/heads/main/extra/schemas/extension.json",
 	"name": "paneru",
 	"title": "Paneru",
-	"description": "Controls Paneru, a sliding, tiling window manager for MacOS.",
+	"description": "Control Paneru, the scrollable tiling window manager for macOS. Run any Paneru command, from focusing and swapping windows to resizing, stacking, and virtual workspaces, via paneru send-cmd.",
 	"categories": [
 		"Productivity",
 		"System"
 	],
 	"license": "MIT",
+	"platforms": [
+		"macOS"
+	],
 	"author": "joshwilsonvu",
 	"contributors": [],
 	"pastContributors": [],
 	"icon": "extension_icon.png",
+	"keywords": [
+		"paneru",
+		"tiling",
+		"scrolling",
+		"window manager",
+		"window",
+		"macos"
+	],
 	"commands": [
 		{
 			"name": "paneru",
@@ -898,7 +909,8 @@
 		"@vicinae/api": "^0.30.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.9.2",
-		"@biomejs/biome": "2.3.2"
+		"@biomejs/biome": "2.3.2",
+		"@types/node": "^26.6.6",
+		"typescript": "^5.9.2"
 	}
 }
